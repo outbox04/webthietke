@@ -28,19 +28,25 @@ const fadeUp = {
 
 export default function LandingPage() {
   const [leadOpen, setLeadOpen] = useState(false);
+  const [leadSource, setLeadSource] = useState("Popup gửi thông tin trong 60 giây");
   const [analysisOpen, setAnalysisOpen] = useState<string | null>(null);
+
+  function openLead(source: string) {
+    setLeadSource(source);
+    setLeadOpen(true);
+  }
 
   return (
     <main className="overflow-hidden pb-24 md:pb-0">
-      <Hero onOpenLead={() => setLeadOpen(true)} />
+      <Hero onOpenLead={() => openLead("Nút nhận tư vấn miễn phí ở hero")} />
       <Deliverables />
       <ProofStats />
-      <PopularHomes onOpenLead={() => setLeadOpen(true)} />
+      <PopularHomes onOpenLead={openLead} />
       <AnalysisSection analysisOpen={analysisOpen} setAnalysisOpen={setAnalysisOpen} />
-      <ConversionSection onOpenLead={() => setLeadOpen(true)} />
-      <FinalCta onOpenLead={() => setLeadOpen(true)} />
-      <LeadModal open={leadOpen} onClose={() => setLeadOpen(false)} />
-      <StickyCta onOpenLead={() => setLeadOpen(true)} />
+      <ConversionSection onOpenLead={() => openLead("Nút nhận báo giá ở section báo giá")} />
+      <FinalCta onOpenLead={() => openLead("Nút đăng ký tư vấn cuối trang")} />
+      <LeadModal open={leadOpen} source={leadSource} onClose={() => setLeadOpen(false)} />
+      <StickyCta onOpenLead={() => openLead("Thanh liên hệ nhanh - nút form")} />
     </main>
   );
 }
@@ -133,7 +139,7 @@ function Deliverables() {
   );
 }
 
-function PopularHomes({ onOpenLead }: { onOpenLead: () => void }) {
+function PopularHomes({ onOpenLead }: { onOpenLead: (source: string) => void }) {
   return (
     <section className="section bg-light">
       <div className="container">
@@ -161,7 +167,7 @@ function PopularHomes({ onOpenLead }: { onOpenLead: () => void }) {
                     ))}
                   </ul>
                   <div className="mt-auto pt-4">
-                    <button type="button" onClick={onOpenLead} className="focus-ring min-h-16 w-full rounded-md bg-primary px-4 py-3 text-sm font-bold uppercase text-white transition hover:bg-secondary">
+                    <button type="button" onClick={() => onOpenLead(`Nút Nhận mẫu phù hợp - ${item.title}`)} className="focus-ring min-h-16 w-full rounded-md bg-primary px-4 py-3 text-sm font-bold uppercase text-white transition hover:bg-secondary">
                       Nhận mẫu phù hợp
                     </button>
                   </div>
@@ -331,7 +337,7 @@ function FinalCta({ onOpenLead }: { onOpenLead: () => void }) {
   );
 }
 
-function LeadModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+function LeadModal({ open, source, onClose }: { open: boolean; source: string; onClose: () => void }) {
   return (
     <AnimatePresence>
       {open ? (
@@ -351,7 +357,7 @@ function LeadModal({ open, onClose }: { open: boolean; onClose: () => void }) {
                   <span className="sr-only">Đóng</span>
                 </button>
               </div>
-              <LeadForm source="Popup gửi thông tin trong 60 giây" />
+              <LeadForm source={source} />
             </motion.div>
           </div>
         </motion.div>
