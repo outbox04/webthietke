@@ -51,6 +51,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 
   return (
     <html lang="vi" className={`${montserrat.variable} ${beVietnam.variable}`}>
+      <head>
+        <meta property="zalo-platform-site-verification" content="O_wa4RtjAp9g_OellD1O9bxMtYooe0jwC38s" />
+      </head>
       <body>
         {gtmId ? (
           <Script id="gtm" strategy="afterInteractive">

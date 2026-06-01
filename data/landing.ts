@@ -37,35 +37,35 @@ export const portfolio = [
     category: "Nhà nông thôn",
     image: "/portfolio/nha-mai-nhat.webp",
     icon: Home,
-    specs: ["Đất 8x18m", "2 tầng", "4 phòng ngủ", "Công năng tối ưu cho gia đình 2 thế hệ"]
+    specs: ["Đất 8x18m", "2 tầng", "4 phòng ngủ", "Gia đình 2 thế hệ"]
   },
   {
     title: "Nhà nông thôn hiện đại 02",
     category: "Nhà nông thôn",
     image: "/portfolio/nha-vuon.webp",
     icon: TreePine,
-    specs: ["Đất 10x20m", "2 tầng", "5 phòng ngủ", "Công năng kết hợp nhà ở và sân vườn"]
+    specs: ["Đất 10x20m", "2 tầng", "5 phòng ngủ", "Nhà ở + sân vườn"]
   },
   {
     title: "Nhà lô phố 01",
     category: "Nhà lô phố",
     image: "/portfolio/nha-pho.png",
     icon: Building2,
-    specs: ["Đất 5x18m", "3 tầng", "4 phòng ngủ", "Công năng thông thoáng có giếng trời"]
+    specs: ["Đất 5x18m", "3 tầng", "4 phòng ngủ", "Có giếng trời"]
   },
   {
     title: "Nhà lô phố 02",
     category: "Nhà lô phố",
     image: "/portfolio/nha-pho.webp",
     icon: Building2,
-    specs: ["Đất 6x20m", "5 tầng", "5 phòng ngủ", "Công năng phù hợp gia đình đông thành viên và kinh doanh"]
+    specs: ["Đất 6x20m", "5 tầng", "5 phòng ngủ", "Ở kết hợp kinh doanh"]
   },
   {
     title: "Biệt thự hiện đại",
     category: "Biệt thự",
     image: "/portfolio/biet-thu.webp",
     icon: Home,
-    specs: ["Đất 12x22m", "2 tầng", "5 phòng ngủ", "Gara 2 xe + Phòng giải trí + Sân vườn"]
+    specs: ["Đất 12x22m", "2 tầng", "5 phòng ngủ", "Gara + sân vườn"]
   }
 ];
 
