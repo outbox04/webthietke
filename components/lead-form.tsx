@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { formNeeds } from "@/data/landing";
 import { leadSchema, type LeadFormValues } from "@/lib/lead-schema";
 
-export function LeadForm() {
+export function LeadForm({ source }: { source: string }) {
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const {
     register,
@@ -16,7 +16,7 @@ export function LeadForm() {
     formState: { errors, isSubmitting, submitCount }
   } = useForm<LeadFormValues>({
     resolver: zodResolver(leadSchema),
-    defaultValues: { need: formNeeds[0] }
+    defaultValues: { need: formNeeds[0], source }
   });
 
   async function onSubmit(values: LeadFormValues) {
@@ -33,7 +33,7 @@ export function LeadForm() {
     }
 
     setStatus("success");
-    reset({ need: formNeeds[0], name: "", phone: "", area: "", note: "" });
+    reset({ need: formNeeds[0], name: "", phone: "", area: "", note: "", source });
   }
 
   return (
@@ -63,6 +63,7 @@ export function LeadForm() {
       <Field label="Ghi chú thêm" error={errors.note?.message} submitCount={submitCount}>
         <textarea {...register("note")} className={`${inputClass(Boolean(errors.note))} min-h-28 resize-y`} placeholder="Vị trí đất, số tầng, ngân sách dự kiến..." />
       </Field>
+      <input type="hidden" {...register("source")} value={source} />
       <button
         type="submit"
         disabled={isSubmitting}

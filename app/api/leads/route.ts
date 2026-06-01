@@ -23,6 +23,7 @@ export async function POST(request: Request) {
   const lead = parsed.data;
   const text = [
     "<b>🔔 LEAD MỚI</b>",
+    `📍 Nguồn gửi form: ${escapeTelegram(lead.source)}`,
     `👤 Họ tên: ${escapeTelegram(lead.name)}`,
     `📞 Số điện thoại: ${escapeTelegram(lead.phone)}`,
     `📐 Diện tích: ${escapeTelegram(lead.area)}`,

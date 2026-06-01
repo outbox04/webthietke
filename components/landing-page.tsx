@@ -284,7 +284,7 @@ function ConversionSection({ onOpenLead }: { onOpenLead: () => void }) {
               ))}
             </div>
           </div>
-          <LeadForm />
+          <LeadForm source="Form đăng ký tư vấn trong trang" />
         </div>
       </div>
     </section>
@@ -351,7 +351,7 @@ function LeadModal({ open, onClose }: { open: boolean; onClose: () => void }) {
                   <span className="sr-only">Đóng</span>
                 </button>
               </div>
-              <LeadForm />
+              <LeadForm source="Popup gửi thông tin trong 60 giây" />
             </motion.div>
           </div>
         </motion.div>
