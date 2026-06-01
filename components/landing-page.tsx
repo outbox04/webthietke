@@ -142,14 +142,14 @@ function PopularHomes({ onOpenLead }: { onOpenLead: () => void }) {
           {portfolio.map((item) => {
             const Icon = item.icon;
             return (
-              <motion.article {...fadeUp} key={item.title} className="overflow-hidden rounded-lg bg-white shadow-soft ring-1 ring-slate-200">
+              <motion.article {...fadeUp} key={item.title} className="flex h-full flex-col overflow-hidden rounded-lg bg-white shadow-soft ring-1 ring-slate-200">
                 <div className="relative aspect-[4/3]">
                   <Image src={item.image} alt={item.title} fill sizes="(min-width: 1025px) 25vw, (min-width: 768px) 50vw, 100vw" className="object-cover" loading="lazy" />
                   <div className="absolute left-3 top-3 flex h-11 w-11 items-center justify-center rounded-md bg-white/95 text-primary">
                     <Icon size={22} aria-hidden="true" />
                   </div>
                 </div>
-                <div className="p-5">
+                <div className="flex flex-1 flex-col p-5">
                   <p className="text-xs font-bold uppercase text-accent">{item.category}</p>
                   <h3 className="font-heading text-xl font-extrabold text-primary">{item.title}</h3>
                   <ul className="mt-4 grid gap-2 text-sm font-semibold text-slate-600">
@@ -160,9 +160,11 @@ function PopularHomes({ onOpenLead }: { onOpenLead: () => void }) {
                       </li>
                     ))}
                   </ul>
-                  <button type="button" onClick={onOpenLead} className="focus-ring mt-4 w-full rounded-md bg-primary px-4 py-3 text-sm font-bold uppercase text-white transition hover:bg-secondary">
-                    Nhận mẫu phù hợp
-                  </button>
+                  <div className="mt-auto pt-4">
+                    <button type="button" onClick={onOpenLead} className="focus-ring min-h-16 w-full rounded-md bg-primary px-4 py-3 text-sm font-bold uppercase text-white transition hover:bg-secondary">
+                      Nhận mẫu phù hợp
+                    </button>
+                  </div>
                 </div>
               </motion.article>
             );
