@@ -49,7 +49,7 @@ export const portfolio = [
   {
     title: "Nhà lô phố 01",
     category: "Nhà lô phố",
-    image: "/portfolio/nha-pho.webp",
+    image: "/portfolio/nha-pho.png",
     icon: Building2,
     specs: ["Đất 5x18m", "3 tầng", "4 phòng ngủ", "Công năng thông thoáng có giếng trời"]
   },
