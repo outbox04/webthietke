@@ -1,13 +1,14 @@
 import { z } from "zod";
 
 export const leadSchema = z.object({
-  name: z.string().min(2, "Vui lòng nhập họ tên"),
+  name: z.string().trim().min(2, "Vui lòng nhập họ tên"),
   phone: z
     .string()
-    .regex(/^(0|\+84)(\d[\s.-]?){8,10}$/, "Số điện thoại chưa hợp lệ"),
-  area: z.string().min(1, "Vui lòng nhập diện tích"),
-  need: z.string().min(1, "Vui lòng chọn nhu cầu"),
-  note: z.string().max(600, "Ghi chú quá dài").optional()
+    .transform((value) => value.replace(/\D/g, ""))
+    .refine((value) => /^\d{10}$/.test(value), "Số điện thoại nhập thiếu số. Vui lòng nhập đủ 10 số."),
+  area: z.string().trim().min(1, "Vui lòng nhập diện tích"),
+  need: z.string().trim().min(1, "Vui lòng chọn nhu cầu"),
+  note: z.string().trim().min(1, "Vui lòng nhập ghi chú").max(600, "Ghi chú quá dài")
 });
 
 export type LeadFormValues = z.infer<typeof leadSchema>;

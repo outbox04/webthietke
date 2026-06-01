@@ -13,7 +13,7 @@ export function LeadForm() {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting }
+    formState: { errors, isSubmitting, submitCount }
   } = useForm<LeadFormValues>({
     resolver: zodResolver(leadSchema),
     defaultValues: { need: formNeeds[0] }
@@ -39,19 +39,19 @@ export function LeadForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4 rounded-lg bg-white p-5 shadow-soft ring-1 ring-slate-200 md:p-7">
       <div className="grid gap-4 md:grid-cols-2">
-        <Field label="Họ và tên" error={errors.name?.message}>
-          <input {...register("name")} className="input" placeholder="Nguyễn Văn A" autoComplete="name" />
+        <Field label="Họ và tên" error={errors.name?.message} submitCount={submitCount}>
+          <input {...register("name")} className={inputClass(Boolean(errors.name))} placeholder="Nguyễn Văn A" autoComplete="name" />
         </Field>
-        <Field label="Số điện thoại" error={errors.phone?.message}>
-          <input {...register("phone")} className="input" placeholder="0384 546 623" autoComplete="tel" />
+        <Field label="Số điện thoại" error={errors.phone?.message} submitCount={submitCount}>
+          <input {...register("phone")} className={inputClass(Boolean(errors.phone))} placeholder="0384546623" autoComplete="tel" inputMode="numeric" maxLength={10} />
         </Field>
       </div>
       <div className="grid gap-4 md:grid-cols-2">
-        <Field label="Diện tích xây dựng" error={errors.area?.message}>
-          <input {...register("area")} className="input" placeholder="Ví dụ: 120m², 5x20m" />
+        <Field label="Diện tích xây dựng" error={errors.area?.message} submitCount={submitCount}>
+          <input {...register("area")} className={inputClass(Boolean(errors.area))} placeholder="Ví dụ: 120m², 5x20m" />
         </Field>
-        <Field label="Nhu cầu" error={errors.need?.message}>
-          <select {...register("need")} className="input">
+        <Field label="Nhu cầu" error={errors.need?.message} submitCount={submitCount}>
+          <select {...register("need")} className={inputClass(Boolean(errors.need))}>
             {formNeeds.map((need) => (
               <option key={need} value={need}>
                 {need}
@@ -60,8 +60,8 @@ export function LeadForm() {
           </select>
         </Field>
       </div>
-      <Field label="Ghi chú thêm" error={errors.note?.message}>
-        <textarea {...register("note")} className="input min-h-28 resize-y" placeholder="Vị trí đất, số tầng, ngân sách dự kiến..." />
+      <Field label="Ghi chú thêm" error={errors.note?.message} submitCount={submitCount}>
+        <textarea {...register("note")} className={`${inputClass(Boolean(errors.note))} min-h-28 resize-y`} placeholder="Vị trí đất, số tầng, ngân sách dự kiến..." />
       </Field>
       <button
         type="submit"
@@ -77,11 +77,17 @@ export function LeadForm() {
   );
 }
 
-function Field({ label, error, children }: { label: string; error?: string; children: React.ReactNode }) {
+function inputClass(hasError: boolean) {
+  return `input ${hasError ? "input-error" : ""}`;
+}
+
+function Field({ label, error, submitCount, children }: { label: string; error?: string; submitCount: number; children: React.ReactNode }) {
   return (
     <label className="grid gap-2 text-sm font-semibold text-primary">
       <span>{label}</span>
-      {children}
+      <span key={`${label}-${submitCount}-${error ?? "ok"}`} className="contents">
+        {children}
+      </span>
       {error ? <span className="text-xs font-semibold text-red-600">{error}</span> : null}
     </label>
   );

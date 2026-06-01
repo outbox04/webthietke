@@ -340,6 +340,9 @@ function LeadModal({ open, onClose }: { open: boolean; onClose: () => void }) {
                 <div>
                   <p className="section-kicker">Nhận tư vấn miễn phí</p>
                   <h2 className="font-heading text-2xl font-extrabold text-primary">Gửi thông tin trong 60 giây</h2>
+                  <p className="mt-2 max-w-lg text-sm font-semibold leading-6 text-slate-600">
+                    KTS dùng thông tin này để gọi lại, tư vấn phương án phù hợp với diện tích, nhu cầu và dự toán thiết kế cho khách hàng.
+                  </p>
                 </div>
                 <button type="button" onClick={onClose} className="focus-ring flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-slate-100 text-primary">
                   <X size={20} aria-hidden="true" />
