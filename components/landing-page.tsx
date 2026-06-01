@@ -77,8 +77,8 @@ function Hero({ onOpenLead }: { onOpenLead: () => void }) {
               </span>
             ))}
           </div>
-          <h1 className="mt-5 font-heading text-[2.35rem] font-extrabold leading-[1.04] text-white sm:text-5xl lg:text-6xl">
-            Càng xem nhiều mẫu nhà đẹp càng không biết nhà nào thật sự phù hợp
+          <h1 className="mt-5 max-w-2xl font-heading text-[2.15rem] font-extrabold leading-[1.08] text-white sm:text-4xl lg:text-5xl">
+            Tìm mẫu nhà hợp đất và ngân sách
           </h1>
           <div className="mt-5 inline-flex rounded-md bg-white px-4 py-3 font-heading text-2xl font-extrabold text-primary shadow-soft">
             Chỉ từ 70.000đ/m²
@@ -143,7 +143,7 @@ function PopularHomes({ onOpenLead }: { onOpenLead: (source: string) => void }) 
   return (
     <section className="section bg-light">
       <div className="container">
-        <SectionIntro eyebrow="Mẫu nhà được quan tâm nhiều nhất" title="5 phối cảnh tượng trưng để bạn chọn nhanh kiểu nhà" />
+        <SectionIntro eyebrow="Mẫu nhà được quan tâm nhiều nhất" title="Chọn nhanh kiểu nhà phù hợp" />
         <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-5">
           {portfolio.map((item) => {
             const Icon = item.icon;
