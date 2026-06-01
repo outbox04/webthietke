@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="48" viewBox="0 0 180 48" fill="none">
+  <rect width="48" height="48" rx="8" fill="#0F172A"/>
+  <path d="M12 31L24 16L36 31" stroke="#F59E0B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M18 31V38H30V31" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="60" y="29" fill="#0F172A" font-family="Montserrat, Arial, sans-serif" font-size="18" font-weight="800">TK Architecture</text>
+</svg>
