@@ -10,9 +10,11 @@ import {
   formHighlights,
   heroBadges,
   portfolio,
+  proofStats,
   pricingItems,
   quickTrust,
-  site
+  site,
+  testimonials
 } from "@/data/landing";
 import { LeadForm } from "@/components/lead-form";
 import { StickyCta } from "@/components/sticky-cta";
@@ -32,10 +34,10 @@ export default function LandingPage() {
     <main className="overflow-hidden pb-24 md:pb-0">
       <Hero onOpenLead={() => setLeadOpen(true)} />
       <Deliverables />
+      <ProofStats />
       <PopularHomes onOpenLead={() => setLeadOpen(true)} />
       <AnalysisSection analysisOpen={analysisOpen} setAnalysisOpen={setAnalysisOpen} />
-      <Pricing onOpenLead={() => setLeadOpen(true)} />
-      <LeadSection />
+      <ConversionSection onOpenLead={() => setLeadOpen(true)} />
       <FinalCta onOpenLead={() => setLeadOpen(true)} />
       <LeadModal open={leadOpen} onClose={() => setLeadOpen(false)} />
       <StickyCta onOpenLead={() => setLeadOpen(true)} />
@@ -135,8 +137,8 @@ function PopularHomes({ onOpenLead }: { onOpenLead: () => void }) {
   return (
     <section className="section bg-light">
       <div className="container">
-        <SectionIntro eyebrow="Mẫu nhà được quan tâm nhiều nhất" title="Chọn mẫu bạn thích, để KTS tư vấn hướng phù hợp" />
-        <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+        <SectionIntro eyebrow="Mẫu nhà được quan tâm nhiều nhất" title="5 phối cảnh tượng trưng để bạn chọn nhanh kiểu nhà" />
+        <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-5">
           {portfolio.map((item) => {
             const Icon = item.icon;
             return (
@@ -148,7 +150,16 @@ function PopularHomes({ onOpenLead }: { onOpenLead: () => void }) {
                   </div>
                 </div>
                 <div className="p-5">
+                  <p className="text-xs font-bold uppercase text-accent">{item.category}</p>
                   <h3 className="font-heading text-xl font-extrabold text-primary">{item.title}</h3>
+                  <ul className="mt-4 grid gap-2 text-sm font-semibold text-slate-600">
+                    {item.specs.map((spec) => (
+                      <li key={spec} className="flex items-center gap-2">
+                        <CheckCircle2 className="text-success" size={16} aria-hidden="true" />
+                        {spec}
+                      </li>
+                    ))}
+                  </ul>
                   <button type="button" onClick={onOpenLead} className="focus-ring mt-4 w-full rounded-md bg-primary px-4 py-3 text-sm font-bold uppercase text-white transition hover:bg-secondary">
                     Nhận mẫu phù hợp
                   </button>
@@ -162,13 +173,28 @@ function PopularHomes({ onOpenLead }: { onOpenLead: () => void }) {
   );
 }
 
+function ProofStats() {
+  return (
+    <section className="bg-primary py-10 text-white">
+      <div className="container grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        {proofStats.map((stat) => (
+          <div key={stat.label} className="rounded-lg bg-white/10 p-5 text-center ring-1 ring-white/15">
+            <p className="font-heading text-4xl font-extrabold text-accent">{stat.value}</p>
+            <p className="mt-2 text-sm font-semibold text-slate-200">{stat.label}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function AnalysisSection({ analysisOpen, setAnalysisOpen }: { analysisOpen: string | null; setAnalysisOpen: (value: string | null) => void }) {
   const selected = analysisItems.find((item) => item.title === analysisOpen);
 
   return (
     <section className="section bg-white">
       <div className="container">
-        <SectionIntro eyebrow="Phân tích thực tế công trình" title="Xem nhanh 3 điểm quyết định nhà có đáng xây không" />
+        <SectionIntro eyebrow="KTS kiểm tra gì trước khi thiết kế" title="Không chọn mẫu chỉ vì nhìn đẹp" />
         <div className="mt-10 grid gap-5 md:grid-cols-3">
           {analysisItems.map((item) => (
             <button
@@ -182,13 +208,14 @@ function AnalysisSection({ analysisOpen, setAnalysisOpen }: { analysisOpen: stri
                 <Maximize2 size={22} aria-hidden="true" />
               </div>
               <p className="mt-5 text-xl font-bold leading-7">{item.value}</p>
-              <div className="mt-6 h-28 rounded-md bg-white/10 p-4 ring-1 ring-white/15">
-                <div className="grid h-full grid-cols-3 gap-2">
-                  <span className="rounded bg-accent/90" />
-                  <span className="rounded bg-white/70" />
-                  <span className="rounded bg-success/80" />
-                </div>
-              </div>
+              <ul className="mt-5 grid gap-2 text-sm text-slate-200">
+                {item.points.slice(0, 2).map((point) => (
+                  <li key={point} className="flex gap-2">
+                    <Check className="mt-0.5 shrink-0 text-accent" size={16} aria-hidden="true" />
+                    {point}
+                  </li>
+                ))}
+              </ul>
             </button>
           ))}
         </div>
@@ -219,10 +246,10 @@ function AnalysisSection({ analysisOpen, setAnalysisOpen }: { analysisOpen: stri
   );
 }
 
-function Pricing({ onOpenLead }: { onOpenLead: () => void }) {
+function ConversionSection({ onOpenLead }: { onOpenLead: () => void }) {
   return (
     <section className="section bg-light">
-      <div className="container">
+      <div className="container grid gap-8">
         <div className="grid gap-8 rounded-lg bg-primary p-6 text-white shadow-soft md:grid-cols-[1fr_0.8fr] md:p-10">
           <div>
             <p className="section-kicker">Báo giá</p>
@@ -241,30 +268,53 @@ function Pricing({ onOpenLead }: { onOpenLead: () => void }) {
             ))}
           </div>
         </div>
+        <Testimonials />
+        <div id="lead-form" className="grid gap-8 rounded-lg bg-white p-6 shadow-soft ring-1 ring-slate-200 lg:grid-cols-[0.85fr_1.15fr] lg:items-start lg:p-8">
+          <div>
+            <p className="section-kicker">Form đăng ký</p>
+            <h2 className="section-title">Đăng ký tư vấn miễn phí</h2>
+            <div className="mt-6 grid gap-3">
+              {formHighlights.map((item) => (
+                <div key={item} className="flex items-center gap-3 rounded-md bg-light p-4 font-semibold text-primary ring-1 ring-slate-200">
+                  <CheckCircle2 className="text-success" size={21} aria-hidden="true" />
+                  {item}
+                </div>
+              ))}
+            </div>
+          </div>
+          <LeadForm />
+        </div>
       </div>
     </section>
   );
 }
 
-function LeadSection() {
+function Testimonials() {
   return (
-    <section id="lead-form" className="section bg-white">
-      <div className="container grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
-        <div>
-          <p className="section-kicker">Form đăng ký</p>
-          <h2 className="section-title">Đăng ký tư vấn miễn phí</h2>
-          <div className="mt-6 grid gap-3">
-            {formHighlights.map((item) => (
-              <div key={item} className="flex items-center gap-3 rounded-md bg-light p-4 font-semibold text-primary ring-1 ring-slate-200">
-                <CheckCircle2 className="text-success" size={21} aria-hidden="true" />
-                {item}
-              </div>
-            ))}
-          </div>
-        </div>
-        <LeadForm />
+    <div>
+      <div className="mx-auto max-w-2xl text-center">
+        <p className="section-kicker">Đánh giá khách hàng</p>
+        <h2 className="section-title">Khách cần bản vẽ dễ hiểu, không chỉ phối cảnh đẹp</h2>
       </div>
-    </section>
+      <div className="mt-8 grid gap-5 md:grid-cols-3">
+        {testimonials.map((item) => (
+          <article key={item.name} className="rounded-lg bg-white p-5 shadow-sm ring-1 ring-slate-200">
+            <div className="flex gap-1 text-accent" aria-hidden="true">
+              <span>★</span>
+              <span>★</span>
+              <span>★</span>
+              <span>★</span>
+              <span>★</span>
+            </div>
+            <p className="mt-4 text-sm leading-7 text-slate-600">"{item.quote}"</p>
+            <div className="mt-5 border-t border-slate-200 pt-4">
+              <p className="font-heading font-extrabold text-primary">{item.name}</p>
+              <p className="text-sm font-semibold text-slate-500">{item.home}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
   );
 }
 

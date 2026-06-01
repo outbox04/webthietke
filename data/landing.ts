@@ -33,42 +33,57 @@ export const deliverables = [
 
 export const portfolio = [
   {
-    title: "Nhà mái Nhật",
+    title: "Nhà nông thôn hiện đại 01",
+    category: "Nhà nông thôn",
     image: "/portfolio/nha-mai-nhat.webp",
-    icon: Home
+    icon: Home,
+    specs: ["Đất 8x18m", "2 tầng", "4 phòng ngủ", "Mái Nhật hiện đại"]
   },
   {
-    title: "Nhà phố",
-    image: "/portfolio/nha-pho.webp",
-    icon: Building2
-  },
-  {
-    title: "Biệt thự",
-    image: "/portfolio/biet-thu.webp",
-    icon: Home
-  },
-  {
-    title: "Nhà vườn",
+    title: "Nhà nông thôn hiện đại 02",
+    category: "Nhà nông thôn",
     image: "/portfolio/nha-vuon.webp",
-    icon: TreePine
+    icon: TreePine,
+    specs: ["Đất 10x20m", "1 tầng", "3 phòng ngủ", "Sân vườn rộng"]
+  },
+  {
+    title: "Nhà lô phố 01",
+    category: "Nhà lô phố",
+    image: "/portfolio/nha-pho.webp",
+    icon: Building2,
+    specs: ["Đất 5x20m", "3 tầng", "4 phòng ngủ", "Có giếng trời"]
+  },
+  {
+    title: "Nhà lô phố 02",
+    category: "Nhà lô phố",
+    image: "/portfolio/nha-pho.webp",
+    icon: Building2,
+    specs: ["Đất 6x18m", "3 tầng", "5 phòng ngủ", "Mặt tiền hiện đại"]
+  },
+  {
+    title: "Biệt thự hiện đại",
+    category: "Biệt thự",
+    image: "/portfolio/biet-thu.webp",
+    icon: Home,
+    specs: ["Đất 12x22m", "2 tầng", "5 phòng ngủ", "Không gian sân vườn"]
   }
 ];
 
 export const analysisItems = [
   {
-    title: "Ánh sáng",
-    value: "Giếng trời, cửa sổ, hướng nắng",
-    points: ["Không gian chính đủ sáng", "Hạn chế nóng buổi chiều", "Thông gió tự nhiên"]
+    title: "Đất có hợp mẫu không?",
+    value: "Kiểm tra kích thước, hướng nắng, mặt tiền",
+    points: ["Mẫu nhà có vừa chiều ngang đất không", "Mặt tiền có bị nóng hoặc bí không", "Có cần sân trước, sân sau, giếng trời không"]
   },
   {
-    title: "Công năng",
-    value: "Mặt bằng đúng thói quen sống",
-    points: ["Lối đi gọn", "Phòng ngủ riêng tư", "Bếp và sinh hoạt thuận tiện"]
+    title: "Nhà có đủ công năng không?",
+    value: "Sắp xếp phòng theo cách gia đình sử dụng",
+    points: ["Số phòng ngủ có đủ cho hiện tại và vài năm tới", "Bếp, khách, thờ, vệ sinh có thuận tiện không", "Luồng đi lại có bị rối hoặc tốn diện tích không"]
   },
   {
-    title: "Chi phí",
-    value: "Mẫu đẹp nhưng phải xây được",
-    points: ["Khối nhà dễ thi công", "Vật liệu kiểm soát được", "Hồ sơ giảm phát sinh"]
+    title: "Có dễ thi công không?",
+    value: "Chọn hình khối, mái, vật liệu theo thực tế",
+    points: ["Mái và mặt tiền có quá phức tạp không", "Kết cấu có phù hợp đội thầu địa phương không", "Hồ sơ có đủ để hạn chế sửa khi xây không"]
   }
 ];
 
@@ -94,6 +109,31 @@ export const formHighlights = [
   "Không cần thanh toán trước khi tư vấn",
   "Gửi thông tin trong dưới 60 giây",
   "Kiến trúc sư gọi lại theo số điện thoại"
+];
+
+export const proofStats = [
+  { value: "200+", label: "hồ sơ thiết kế đã thực hiện" },
+  { value: "35+", label: "tỉnh thành đã tư vấn online" },
+  { value: "1-3 ngày", label: "có phương án sơ bộ" },
+  { value: "6", label: "hạng mục hồ sơ bàn giao" }
+];
+
+export const testimonials = [
+  {
+    name: "Anh Minh",
+    home: "Nhà lô phố 5x20m",
+    quote: "Trước đó tôi lưu rất nhiều mẫu nhưng không biết mẫu nào hợp đất. Sau khi gửi thông tin, KTS tư vấn lại mặt bằng và hướng lấy sáng rất dễ hiểu."
+  },
+  {
+    name: "Chị Hương",
+    home: "Nhà nông thôn 2 tầng",
+    quote: "Điểm tôi cần là bản vẽ rõ để làm việc với thợ. Phối cảnh đẹp nhưng vẫn phải thi công được, không bị quá cầu kỳ."
+  },
+  {
+    name: "Anh Quân",
+    home: "Biệt thự sân vườn",
+    quote: "Tư vấn nhanh, hỏi đúng nhu cầu gia đình. Tôi thích cách phân tích công năng trước rồi mới chốt kiểu dáng bên ngoài."
+  }
 ];
 
 export const faqSchemaItems = [
