@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import { Be_Vietnam_Pro, Montserrat } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
@@ -84,6 +85,7 @@ fbq('init','${pixelId}');fbq('track','PageView');`}
           </Script>
         ) : null}
         {children}
+        <Analytics />
       </body>
     </html>
   );
