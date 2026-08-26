@@ -6,204 +6,150 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./catalog-flipbook.module.css";
 
 const PDF_URL = "/catalog/Done_Catalog_TDH_web.pdf";
+const PAGE_COUNT = 24;
+const PAGE_IMAGES = Array.from({ length: PAGE_COUNT }, (_, index) => `/catalog/pages/page-${String(index + 1).padStart(2, "0")}.jpg`);
 
-type PdfPage = {
-  getViewport: (options: { scale: number }) => { width: number; height: number };
-  render: (options: { canvasContext: CanvasRenderingContext2D; viewport: unknown }) => { promise: Promise<void> };
+type PageFlipEvent = { data: number | string | { page: number; mode: "portrait" | "landscape" } };
+type PageFlipInstance = {
+  loadFromImages: (images: string[]) => void;
+  flipNext: (corner?: "top" | "bottom") => void;
+  flipPrev: (corner?: "top" | "bottom") => void;
+  on: (event: string, callback: (event: PageFlipEvent) => void) => void;
+  destroy: () => void;
 };
 
-type PdfDocument = {
-  numPages: number;
-  getPage: (pageNumber: number) => Promise<PdfPage>;
-};
-
-function PdfCanvas({ document, pageNumber }: { document: PdfDocument; pageNumber: number }) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [ready, setReady] = useState(false);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    async function renderPage() {
-      setReady(false);
-      const page = await document.getPage(pageNumber);
-      const viewport = page.getViewport({ scale: 1.35 });
-      const canvas = canvasRef.current;
-      if (!canvas || cancelled) return;
-      const context = canvas.getContext("2d", { alpha: false });
-      if (!context) return;
-      canvas.width = Math.floor(viewport.width);
-      canvas.height = Math.floor(viewport.height);
-      await page.render({ canvasContext: context, viewport }).promise;
-      if (!cancelled) setReady(true);
-    }
-
-    void renderPage();
-    return () => {
-      cancelled = true;
-    };
-  }, [document, pageNumber]);
-
-  return (
-    <div className={styles.page} aria-label={`Trang ${pageNumber}`}>
-      {!ready && <div className={styles.pageLoader}>Đang tải trang {pageNumber}…</div>}
-      <canvas ref={canvasRef} className={`${styles.canvas} ${ready ? styles.canvasReady : ""}`} />
-      <span className={styles.pageNumber}>{pageNumber}</span>
-    </div>
-  );
+declare global {
+  interface Window {
+    St?: { PageFlip: new (element: HTMLElement, settings: Record<string, unknown>) => PageFlipInstance };
+    webkitAudioContext?: typeof AudioContext;
+  }
 }
 
 export default function CatalogFlipbook() {
-  const viewerRef = useRef<HTMLDivElement>(null);
-  const [pdfDocument, setPdfDocument] = useState<PdfDocument | null>(null);
-  const [error, setError] = useState("");
-  const [page, setPage] = useState(1);
-  const [singlePage, setSinglePage] = useState(false);
-  const [direction, setDirection] = useState<"next" | "prev" | null>(null);
+  const viewerRef = useRef<HTMLElement>(null);
+  const bookRef = useRef<HTMLDivElement>(null);
+  const pageFlipRef = useRef<PageFlipInstance | null>(null);
+  const soundEnabledRef = useRef(true);
+  const lastFlipSoundRef = useRef(0);
+  const [pageIndex, setPageIndex] = useState(0);
+  const [orientation, setOrientation] = useState<"portrait" | "landscape">("landscape");
   const [fullscreen, setFullscreen] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
+  const [ready, setReady] = useState(false);
+  const [error, setError] = useState("");
+
+  useEffect(() => { soundEnabledRef.current = soundEnabled; }, [soundEnabled]);
 
   const playPageSound = useCallback(() => {
-    if (!soundEnabled) return;
-    const AudioContextClass = window.AudioContext || (window as typeof window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+    if (!soundEnabledRef.current || Date.now() - lastFlipSoundRef.current < 350) return;
+    lastFlipSoundRef.current = Date.now();
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
     if (!AudioContextClass) return;
     const audioContext = new AudioContextClass();
-    const duration = 0.52;
+    const duration = 0.62;
     const buffer = audioContext.createBuffer(1, audioContext.sampleRate * duration, audioContext.sampleRate);
     const data = buffer.getChannelData(0);
     for (let i = 0; i < data.length; i += 1) {
       const progress = i / data.length;
-      const envelope = Math.sin(Math.PI * progress) * (1 - progress * 0.45);
-      data[i] = (Math.random() * 2 - 1) * envelope;
+      data[i] = (Math.random() * 2 - 1) * Math.sin(Math.PI * progress) * (1 - progress * 0.55);
     }
     const source = audioContext.createBufferSource();
     const filter = audioContext.createBiquadFilter();
     const gain = audioContext.createGain();
     filter.type = "bandpass";
-    filter.frequency.setValueAtTime(1300, audioContext.currentTime);
-    filter.frequency.exponentialRampToValueAtTime(420, audioContext.currentTime + duration);
-    filter.Q.value = 0.7;
+    filter.frequency.setValueAtTime(1700, audioContext.currentTime);
+    filter.frequency.exponentialRampToValueAtTime(380, audioContext.currentTime + duration);
+    filter.Q.value = 0.65;
     gain.gain.setValueAtTime(0.0001, audioContext.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.22, audioContext.currentTime + 0.06);
+    gain.gain.exponentialRampToValueAtTime(0.2, audioContext.currentTime + 0.07);
     gain.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + duration);
     source.buffer = buffer;
     source.connect(filter).connect(gain).connect(audioContext.destination);
     source.start();
     source.stop(audioContext.currentTime + duration);
     source.addEventListener("ended", () => void audioContext.close());
-  }, [soundEnabled]);
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
-    async function loadPdf() {
+    function initialise() {
+      if (cancelled || !bookRef.current || !window.St) return;
       try {
-        // PDF.js is served as a static ES module to keep the main application bundle small.
-        const importPdfJs = new Function("return import('/catalog/pdf.mjs')") as () => Promise<any>;
-        const pdfjs = await importPdfJs();
-        pdfjs.GlobalWorkerOptions.workerSrc = "/catalog/pdf.worker.min.mjs";
-        const loaded = await pdfjs.getDocument(PDF_URL).promise;
-        if (!cancelled) setPdfDocument(loaded as PdfDocument);
-      } catch {
-        if (!cancelled) setError("Không thể tải catalog. Vui lòng thử lại hoặc tải file PDF về máy.");
-      }
+        const instance = new window.St.PageFlip(bookRef.current, {
+          width: 595, height: 842, size: "stretch", minWidth: 260, maxWidth: 595,
+          minHeight: 368, maxHeight: 842, autoSize: true, showCover: true, usePortrait: true,
+          drawShadow: true, maxShadowOpacity: 0.62, flippingTime: 1050, showPageCorners: true,
+          mobileScrollSupport: true, swipeDistance: 25
+        });
+        instance.on("init", (event) => {
+          const value = event.data as { page: number; mode: "portrait" | "landscape" };
+          setPageIndex(value.page); setOrientation(value.mode); setReady(true);
+        });
+        instance.on("flip", (event) => setPageIndex(Number(event.data)));
+        instance.on("changeOrientation", (event) => setOrientation(event.data as "portrait" | "landscape"));
+        instance.on("changeState", (event) => { if (event.data === "flipping") playPageSound(); });
+        instance.loadFromImages(PAGE_IMAGES);
+        pageFlipRef.current = instance;
+      } catch { setError("Không thể khởi tạo hiệu ứng lật trang. Vui lòng tải lại trang."); }
     }
-    void loadPdf();
-    return () => {
-      cancelled = true;
+    if (window.St) initialise();
+    else {
+      const script = document.createElement("script");
+      script.src = "/catalog/page-flip.browser.js"; script.async = true; script.onload = initialise;
+      script.onerror = () => setError("Không thể tải hiệu ứng lật trang. Vui lòng tải lại trang.");
+      document.head.appendChild(script);
+    }
+    return () => { cancelled = true; pageFlipRef.current = null; };
+  }, [playPageSound]);
+
+  useEffect(() => {
+    const handler = () => setFullscreen(Boolean(document.fullscreenElement));
+    document.addEventListener("fullscreenchange", handler);
+    return () => document.removeEventListener("fullscreenchange", handler);
+  }, []);
+
+  useEffect(() => {
+    const handler = (event: KeyboardEvent) => {
+      if (event.key === "ArrowRight") pageFlipRef.current?.flipNext("bottom");
+      if (event.key === "ArrowLeft") pageFlipRef.current?.flipPrev("bottom");
     };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
   }, []);
-
-  useEffect(() => {
-    const media = window.matchMedia("(max-width: 700px)");
-    const updateLayout = () => setSinglePage(media.matches);
-    updateLayout();
-    media.addEventListener("change", updateLayout);
-    return () => media.removeEventListener("change", updateLayout);
-  }, []);
-
-  useEffect(() => {
-    if (!singlePage && page % 2 === 0) setPage((current) => Math.max(1, current - 1));
-  }, [page, singlePage]);
-
-  useEffect(() => {
-    const onFullscreenChange = () => setFullscreen(Boolean(document.fullscreenElement));
-    document.addEventListener("fullscreenchange", onFullscreenChange);
-    return () => document.removeEventListener("fullscreenchange", onFullscreenChange);
-  }, []);
-
-  const turn = useCallback(
-    (nextDirection: "next" | "prev") => {
-      if (!pdfDocument || direction) return;
-      const step = singlePage ? 1 : 2;
-      const nextPage = nextDirection === "next" ? page + step : page - step;
-      if (nextPage < 1 || nextPage > pdfDocument.numPages) return;
-      playPageSound();
-      setDirection(nextDirection);
-      window.setTimeout(() => setPage(nextPage), 250);
-      window.setTimeout(() => setDirection(null), 560);
-    },
-    [direction, pdfDocument, page, playPageSound, singlePage]
-  );
-
-  useEffect(() => {
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "ArrowRight") turn("next");
-      if (event.key === "ArrowLeft") turn("prev");
-    };
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [turn]);
 
   async function toggleFullscreen() {
     if (!document.fullscreenElement) await viewerRef.current?.requestFullscreen();
     else await document.exitFullscreen();
   }
 
-  const canGoBack = page > 1;
-  const canGoNext = Boolean(pdfDocument && page < pdfDocument.numPages);
+  const isCover = orientation === "landscape" && (pageIndex === 0 || pageIndex === PAGE_COUNT - 1);
+  const label = isCover || orientation === "portrait" ? `Trang ${pageIndex + 1} / ${PAGE_COUNT}` : `Trang ${pageIndex + 1}–${Math.min(pageIndex + 2, PAGE_COUNT)} / ${PAGE_COUNT}`;
 
   return (
     <main className={styles.shell} ref={viewerRef}>
       <header className={styles.header}>
-        <Link href="/" className={styles.brand} aria-label="Về trang chủ">
-          <Home size={19} />
-          <span>TDH Architecture</span>
-        </Link>
+        <Link href="/" className={styles.brand} aria-label="Về trang chủ"><Home size={19} /><span>TDH Architecture</span></Link>
         <h1>Catalog công trình</h1>
         <div className={styles.headerActions}>
-          <a href={PDF_URL} download className={styles.iconButton} title="Tải catalog PDF">
-            <Download size={19} />
-          </a>
-          <button type="button" className={styles.iconButton} onClick={toggleFullscreen} title="Toàn màn hình">
-            {fullscreen ? <Shrink size={19} /> : <Expand size={19} />}
-          </button>
+          <a href={PDF_URL} download className={styles.iconButton} title="Tải catalog PDF"><Download size={19} /></a>
+          <button type="button" className={styles.iconButton} onClick={toggleFullscreen} title="Toàn màn hình">{fullscreen ? <Shrink size={19} /> : <Expand size={19} />}</button>
         </div>
       </header>
-
       <section className={styles.viewer} aria-live="polite">
-        {!pdfDocument && !error && <div className={styles.loading}><span />Đang mở catalog…</div>}
+        {!ready && !error && <div className={styles.loading}><span />Đang mở catalog…</div>}
         {error && <div className={styles.error}>{error}</div>}
-        {pdfDocument && (
-          <div className={`${styles.book} ${direction === "next" ? styles.turnNext : ""} ${direction === "prev" ? styles.turnPrev : ""}`}>
-            <PdfCanvas document={pdfDocument} pageNumber={page} />
-            {!singlePage && page + 1 <= pdfDocument.numPages && <PdfCanvas document={pdfDocument} pageNumber={page + 1} />}
-          </div>
-        )}
+        <div className={`${styles.flipStage} ${isCover ? styles.coverStage : ""} ${ready ? styles.stageReady : ""}`}>
+          <div ref={bookRef} className={styles.flipBook} />
+          {!isCover && orientation === "landscape" && <div className={styles.spine} aria-hidden="true" />}
+        </div>
       </section>
-
       <footer className={styles.controls}>
-        <button type="button" onClick={() => turn("prev")} disabled={!canGoBack} aria-label="Trang trước">
-          <ChevronLeft size={24} />
-        </button>
-        <span>{pdfDocument ? (singlePage ? `Trang ${page} / ${pdfDocument.numPages}` : `Trang ${page}–${Math.min(page + 1, pdfDocument.numPages)} / ${pdfDocument.numPages}`) : "Đang tải…"}</span>
-        <button type="button" onClick={() => turn("next")} disabled={!canGoNext} aria-label="Trang sau">
-          <ChevronRight size={24} />
-        </button>
-        <button type="button" className={styles.soundButton} onClick={() => setSoundEnabled((current) => !current)} aria-label={soundEnabled ? "Tắt tiếng lật trang" : "Bật tiếng lật trang"} title={soundEnabled ? "Tắt âm thanh" : "Bật âm thanh"}>
-          {soundEnabled ? <Volume2 size={20} /> : <VolumeX size={20} />}
-        </button>
+        <button type="button" onClick={() => pageFlipRef.current?.flipPrev("bottom")} disabled={!ready || pageIndex === 0} aria-label="Trang trước"><ChevronLeft size={24} /></button>
+        <span>{ready ? label : "Đang tải…"}</span>
+        <button type="button" onClick={() => pageFlipRef.current?.flipNext("bottom")} disabled={!ready || pageIndex >= PAGE_COUNT - 1} aria-label="Trang sau"><ChevronRight size={24} /></button>
+        <button type="button" className={styles.soundButton} onClick={() => setSoundEnabled((current) => !current)} aria-label={soundEnabled ? "Tắt tiếng lật trang" : "Bật tiếng lật trang"}>{soundEnabled ? <Volume2 size={20} /> : <VolumeX size={20} />}</button>
       </footer>
-      <p className={styles.hint}>Dùng phím ← → hoặc nút điều hướng để lật trang</p>
+      <p className={styles.hint}>Kéo góc trang, vuốt hoặc dùng phím ← → để lật trang</p>
     </main>
   );
 }
