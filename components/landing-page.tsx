@@ -14,7 +14,8 @@ import {
   pricingItems,
   quickTrust,
   site,
-  testimonials
+  testimonials,
+  whyChooseItems
 } from "@/data/landing";
 import { LeadForm } from "@/components/lead-form";
 import { StickyCta } from "@/components/sticky-cta";
@@ -43,6 +44,7 @@ export default function LandingPage() {
       <ProofStats />
       <PopularHomes onOpenLead={openLead} />
       <AnalysisSection analysisOpen={analysisOpen} setAnalysisOpen={setAnalysisOpen} />
+      <WhyChooseUs />
       <ConversionSection onOpenLead={() => openLead("Nút nhận báo giá ở section báo giá")} />
       <FinalCta onOpenLead={() => openLead("Nút đăng ký tư vấn cuối trang")} />
       <LeadModal open={leadOpen} source={leadSource} onClose={() => setLeadOpen(false)} />
@@ -289,6 +291,39 @@ function ConversionSection({ onOpenLead }: { onOpenLead: () => void }) {
             </div>
           </div>
           <LeadForm source="Form đăng ký tư vấn trong trang" />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function WhyChooseUs() {
+  return (
+    <section className="section dark-surface text-white">
+      <div className="container relative">
+        <SectionIntro eyebrow="Vì sao nên chọn Tiến Dương" title="Một đơn vị đồng hành từ ý tưởng đến hồ sơ thi công" />
+        <p className="mx-auto mt-6 max-w-2xl text-center text-base leading-7 text-white/70">
+          Mỗi phương án được xây dựng từ nhu cầu sử dụng thực tế, điều kiện khu đất và khả năng triển khai của gia đình.
+        </p>
+        <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {whyChooseItems.map((item, index) => {
+            const Icon = item.icon;
+            return (
+              <motion.article
+                {...fadeUp}
+                transition={{ duration: 0.5, delay: index * 0.07, ease: [0.22, 1, 0.36, 1] }}
+                key={item.title}
+                className="group rounded-[18px] border border-white/10 bg-white/[.045] p-6 transition duration-500 hover:-translate-y-1.5 hover:border-accent/40 hover:bg-white/[.07]"
+              >
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary ring-1 ring-white/10 transition duration-300 group-hover:scale-105">
+                  <Icon className="text-accent" size={27} strokeWidth={1.8} aria-hidden="true" />
+                </div>
+                <p className="mt-6 font-heading text-xs font-bold uppercase tracking-[0.18em] text-accent">0{index + 1}</p>
+                <h3 className="mt-2 font-heading text-xl font-extrabold leading-7 text-white">{item.title}</h3>
+                <p className="mt-3 text-sm leading-7 text-white/65">{item.description}</p>
+              </motion.article>
+            );
+          })}
         </div>
       </div>
     </section>

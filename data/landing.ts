@@ -118,6 +118,29 @@ export const proofStats = [
   { value: "6", label: "hạng mục hồ sơ bàn giao" }
 ];
 
+export const whyChooseItems = [
+  {
+    title: "Tư vấn đúng nhu cầu",
+    description: "Kiến trúc sư phân tích diện tích, công năng và ngân sách trước khi đề xuất phương án.",
+    icon: MessageCircle
+  },
+  {
+    title: "Hồ sơ rõ ràng, đồng bộ",
+    description: "Kiến trúc, kết cấu và điện nước được triển khai thống nhất để thuận tiện khi thi công.",
+    icon: FileCheck2
+  },
+  {
+    title: "Thiết kế bám sát thực tế",
+    description: "Giải pháp được cân đối theo khu đất, điều kiện thi công và vật liệu tại địa phương.",
+    icon: Ruler
+  },
+  {
+    title: "Đồng hành trong quá trình xây dựng",
+    description: "Hỗ trợ giải đáp kỹ thuật và làm rõ bản vẽ khi chủ nhà triển khai công trình.",
+    icon: ShieldCheck
+  }
+];
+
 export const testimonials = [
   {
     name: "Anh Minh",
