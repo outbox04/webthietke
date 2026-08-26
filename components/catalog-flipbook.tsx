@@ -117,12 +117,17 @@ export default function CatalogFlipbook() {
     return () => window.removeEventListener("keydown", handler);
   }, []);
 
+  useEffect(() => {
+    const timer = window.setTimeout(() => window.dispatchEvent(new Event("resize")), 40);
+    return () => window.clearTimeout(timer);
+  }, [pageIndex]);
+
   async function toggleFullscreen() {
     if (!document.fullscreenElement) await viewerRef.current?.requestFullscreen();
     else await document.exitFullscreen();
   }
 
-  const isCover = orientation === "landscape" && (pageIndex === 0 || pageIndex === PAGE_COUNT - 1);
+  const isCover = pageIndex === 0 || pageIndex === PAGE_COUNT - 1;
   const label = isCover || orientation === "portrait" ? `Trang ${pageIndex + 1} / ${PAGE_COUNT}` : `Trang ${pageIndex + 1}–${Math.min(pageIndex + 2, PAGE_COUNT)} / ${PAGE_COUNT}`;
 
   return (
