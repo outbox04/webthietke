@@ -21,7 +21,7 @@ const beVietnam = Be_Vietnam_Pro({
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
-  title: "Thiết kế kiến trúc nhà phố, nhà mái Nhật, biệt thự từ 70.000đ/m²",
+  title: "Thiết kế kiến trúc nhà phố, nhà mái Nhật và biệt thự",
   description: site.description,
   alternates: { canonical: "/" },
   robots: { index: true, follow: true },
@@ -36,12 +36,13 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Thiết kế kiến trúc nhà ở từ 70.000đ/m²",
+    title: "Thiết kế kiến trúc nhà ở chuyên nghiệp",
     description: site.description,
     images: ["/hero/architecture-hero.webp"]
   },
   icons: {
-    icon: "/favicon/favicon.svg"
+    icon: "/logo/logo-slogan.png",
+    apple: "/logo/logo-slogan.png"
   }
 };
 

@@ -41,7 +41,7 @@ img {
 }
 
 .section-kicker {
-  color: #f59e0b;
+  color: #d51f2a;
   font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0;
@@ -65,7 +65,7 @@ img {
 }
 
 .focus-ring:focus-visible {
-  outline: 3px solid rgba(245, 158, 11, 0.6);
+  outline: 3px solid rgba(213, 31, 42, 0.55);
   outline-offset: 3px;
 }
 
@@ -82,8 +82,8 @@ img {
 }
 
 .input:focus {
-  border-color: #f59e0b;
-  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.18);
+  border-color: #d51f2a;
+  box-shadow: 0 0 0 3px rgba(213, 31, 42, 0.16);
   outline: none;
 }
 
@@ -118,7 +118,7 @@ img {
 }
 
 .swiper-pagination-bullet-active {
-  background: #f59e0b !important;
+  background: #d51f2a !important;
 }
 
 @media (min-width: 768px) {

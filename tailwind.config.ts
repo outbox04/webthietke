@@ -5,9 +5,9 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: "#0F172A",
-        secondary: "#1E293B",
-        accent: "#F59E0B",
+        primary: "#082E4B",
+        secondary: "#124E73",
+        accent: "#D51F2A",
         light: "#F8FAFC",
         body: "#334155",
         success: "#10B981"
@@ -17,7 +17,7 @@ const config: Config = {
         body: ["var(--font-be-vietnam)", "sans-serif"]
       },
       boxShadow: {
-        soft: "0 24px 70px rgba(15, 23, 42, 0.12)"
+        soft: "0 24px 70px rgba(8, 46, 75, 0.14)"
       }
     }
   },

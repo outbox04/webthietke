@@ -8,7 +8,7 @@ type ButtonLinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
 export function ButtonLink({ className = "", variant = "primary", children, ...props }: ButtonLinkProps) {
   const styles =
     variant === "primary"
-      ? "bg-accent text-primary hover:bg-amber-400"
+      ? "bg-accent text-white hover:bg-red-700"
       : "bg-white/10 text-white ring-1 ring-white/35 hover:bg-white/20";
 
   return (

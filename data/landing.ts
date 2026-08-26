@@ -14,12 +14,12 @@ import {
 } from "lucide-react";
 
 export const site = {
-  name: "TK Architecture",
+  name: "Tiến Dương",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.thietkekientruc.site",
   phone: "0922.823.555",
   zalo: "https://zalo.me/0922823555",
   description:
-    "Tư vấn thiết kế kiến trúc nhà phố, nhà mái Nhật, biệt thự và nhà vườn từ 70.000đ/m²."
+    "Tư vấn thiết kế kiến trúc nhà phố, nhà mái Nhật, biệt thự và nhà vườn trên toàn quốc."
 };
 
 export const deliverables = [
@@ -100,7 +100,7 @@ export const stickyActions = [
 export const heroBadges = ["Nhà phố", "Nhà mái Nhật", "Biệt thự"];
 
 export const quickTrust = [
-  { value: "70.000đ/m²", label: "Giá thiết kế từ" },
+  { value: "Tư vấn miễn phí", label: "Giải pháp ban đầu" },
   { value: "6 hạng mục", label: "Hồ sơ bàn giao" },
   { value: "Toàn quốc", label: "Tư vấn online" }
 ];
@@ -142,8 +142,8 @@ export const faqSchemaItems = [
     answer: "Có. Khách hàng có thể gửi kích thước đất, ảnh hiện trạng và nhu cầu để được tư vấn online toàn quốc."
   },
   {
-    question: "Chi phí thiết kế từ bao nhiêu?",
-    answer: "Chi phí thiết kế kiến trúc bắt đầu từ 70.000đ/m² tùy quy mô và phạm vi hồ sơ."
+    question: "Chi phí thiết kế được xác định như thế nào?",
+    answer: "Chi phí được tư vấn theo loại công trình, diện tích, nhu cầu sử dụng và phạm vi hồ sơ cụ thể."
   },
   {
     question: "Tôi đăng ký xong sẽ được gì?",

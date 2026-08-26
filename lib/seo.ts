@@ -6,7 +6,7 @@ export const organizationSchema = {
   name: site.name,
   url: site.url,
   telephone: site.phone,
-  logo: `${site.url}/logo/logo.svg`,
+  logo: `${site.url}/logo/logo-slogan.png`,
   areaServed: "Việt Nam"
 };
 
@@ -16,13 +16,7 @@ export const serviceSchema = {
   name: "Thiết kế kiến trúc nhà ở",
   provider: { "@type": "Organization", name: site.name },
   serviceType: "Thiết kế kiến trúc nhà phố, nhà mái Nhật, biệt thự và villa",
-  areaServed: "Việt Nam",
-  offers: {
-    "@type": "Offer",
-    price: "70000",
-    priceCurrency: "VND",
-    unitText: "m2"
-  }
+  areaServed: "Việt Nam"
 };
 
 export const faqSchema = {

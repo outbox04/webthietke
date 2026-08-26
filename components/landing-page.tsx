@@ -56,7 +56,7 @@ function CtaButton({ children, onClick, className = "" }: { children: React.Reac
     <button
       type="button"
       onClick={onClick}
-      className={`focus-ring inline-flex min-h-14 items-center justify-center rounded-md bg-accent px-6 py-4 text-base font-extrabold uppercase text-primary shadow-soft transition hover:bg-amber-400 ${className}`}
+      className={`focus-ring inline-flex min-h-14 items-center justify-center rounded-md bg-accent px-6 py-4 text-base font-extrabold uppercase text-white shadow-soft transition hover:bg-red-700 ${className}`}
     >
       {children}
     </button>
@@ -70,6 +70,9 @@ function Hero({ onOpenLead }: { onOpenLead: () => void }) {
       <div className="absolute inset-0 bg-gradient-to-b from-primary/78 via-primary/64 to-primary/90" />
       <div className="container relative z-10 grid min-h-[92svh] items-center py-16">
         <motion.div {...fadeUp} className="max-w-3xl">
+          <div className="mb-5 flex h-28 w-28 items-center justify-center overflow-hidden rounded-lg bg-white shadow-soft ring-1 ring-white/30">
+            <Image src="/logo/logo-slogan.png" alt="Tiến Dương - Kiến tạo chuẩn mực, xứng tầm giá trị" width={112} height={112} priority className="h-full w-full object-contain" />
+          </div>
           <div className="flex flex-wrap gap-2">
             {heroBadges.map((badge) => (
               <span key={badge} className="rounded-md bg-white/12 px-3 py-2 text-sm font-bold ring-1 ring-white/20">
@@ -80,9 +83,6 @@ function Hero({ onOpenLead }: { onOpenLead: () => void }) {
           <h1 className="mt-5 max-w-2xl font-heading text-[2.15rem] font-extrabold leading-[1.08] text-white sm:text-4xl lg:text-5xl">
             Tìm mẫu nhà hợp đất và ngân sách
           </h1>
-          <div className="mt-5 inline-flex rounded-md bg-white px-4 py-3 font-heading text-2xl font-extrabold text-primary shadow-soft">
-            Chỉ từ 70.000đ/m²
-          </div>
           <p className="mt-5 max-w-xl text-lg font-semibold text-slate-100">Thiết kế nhà phố • Nhà mái Nhật • Biệt thự</p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
             <CtaButton onClick={onOpenLead} className="w-full sm:w-auto">
@@ -260,8 +260,8 @@ function ConversionSection({ onOpenLead }: { onOpenLead: () => void }) {
       <div className="container grid gap-8">
         <div className="grid gap-8 rounded-lg bg-primary p-6 text-white shadow-soft md:grid-cols-[1fr_0.8fr] md:p-10">
           <div>
-            <p className="section-kicker">Báo giá</p>
-            <h2 className="mt-3 font-heading text-4xl font-extrabold leading-tight md:text-5xl">Chỉ từ 70.000đ/m²</h2>
+            <p className="section-kicker">Tư vấn thiết kế</p>
+            <h2 className="mt-3 font-heading text-4xl font-extrabold leading-tight md:text-5xl">Giải pháp phù hợp cho từng công trình</h2>
             <p className="mt-4 max-w-xl text-base leading-7 text-slate-300">Nhận tư vấn nhanh theo diện tích và loại nhà. Không cần đọc dài, gửi thông tin là có người gọi lại.</p>
             <CtaButton onClick={onOpenLead} className="mt-7 w-full sm:w-auto">
               Nhận báo giá

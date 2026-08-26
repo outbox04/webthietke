@@ -1,6 +1,7 @@
 "use client";
 
-import { ChevronLeft, ChevronRight, Download, Expand, Home, Shrink, Volume2, VolumeX } from "lucide-react";
+import { ChevronLeft, ChevronRight, Download, Expand, Shrink, Volume2, VolumeX } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./catalog-flipbook.module.css";
@@ -134,7 +135,7 @@ export default function CatalogFlipbook() {
   return (
     <main className={styles.shell} ref={viewerRef}>
       <header className={styles.header}>
-        <Link href="/" className={styles.brand} aria-label="Về trang chủ"><Home size={19} /><span>TDH Architecture</span></Link>
+        <Link href="/" className={styles.brand} aria-label="Về trang chủ"><Image src="/logo/logo-slogan.png" alt="Tiến Dương" width={44} height={44} /><span>TIẾN DƯƠNG</span></Link>
         <h1>Catalog công trình</h1>
         <div className={styles.headerActions}>
           <a href={PDF_URL} download className={styles.iconButton} title="Tải catalog PDF"><Download size={19} /></a>
