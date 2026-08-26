@@ -8,12 +8,12 @@ type ButtonLinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
 export function ButtonLink({ className = "", variant = "primary", children, ...props }: ButtonLinkProps) {
   const styles =
     variant === "primary"
-      ? "bg-accent text-white hover:bg-red-700"
+      ? "bg-accent text-white hover:bg-[#C9141B]"
       : "bg-white/10 text-white ring-1 ring-white/35 hover:bg-white/20";
 
   return (
     <a
-      className={`focus-ring inline-flex min-h-12 items-center justify-center gap-2 rounded-md px-5 py-3 text-sm font-bold transition ${styles} ${className}`}
+      className={`focus-ring inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-bold transition duration-300 hover:-translate-y-0.5 ${styles} ${className}`}
       {...props}
     >
       {children}

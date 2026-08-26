@@ -11,7 +11,7 @@ export function SectionHeading({ kicker, title, copy, align = "left", inverse = 
     <div className={align === "center" ? "mx-auto max-w-3xl text-center" : "max-w-3xl"}>
       <span className="section-kicker">{kicker}</span>
       <h2 className={`section-title ${inverse ? "!text-white" : ""}`}>{title}</h2>
-      {copy ? <p className={`section-copy ${inverse ? "!text-slate-300" : ""}`}>{copy}</p> : null}
+      {copy ? <p className={`section-copy ${inverse ? "!text-white/70" : ""}`}>{copy}</p> : null}
     </div>
   );
 }

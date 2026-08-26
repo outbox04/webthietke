@@ -4,7 +4,10 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #334155;
+  --foreground: #263b4b;
+  --navy: #061a2b;
+  --red: #ed1c24;
+  --soft-white: #f7f9fb;
 }
 
 * {
@@ -37,53 +40,54 @@ img {
 }
 
 .section {
-  padding: 72px 0;
+  padding: 76px 0;
 }
 
 .section-kicker {
-  color: #d51f2a;
+  color: #ed1c24;
   font-size: 0.78rem;
   font-weight: 700;
-  letter-spacing: 0;
+  letter-spacing: 0.09em;
   text-transform: uppercase;
 }
 
 .section-title {
-  color: #0f172a;
+  color: #061a2b;
   font-family: var(--font-montserrat), sans-serif;
   font-size: clamp(2rem, 4vw, 3.25rem);
   font-weight: 800;
-  line-height: 1.08;
+  line-height: 1.12;
+  letter-spacing: -0.035em;
   margin-top: 12px;
 }
 
 .section-copy {
-  color: #475569;
+  color: rgba(6, 26, 43, 0.74);
   font-size: 1rem;
   line-height: 1.75;
   margin-top: 18px;
 }
 
 .focus-ring:focus-visible {
-  outline: 3px solid rgba(213, 31, 42, 0.55);
+  outline: 3px solid rgba(237, 28, 36, 0.42);
   outline-offset: 3px;
 }
 
 .input {
   min-height: 48px;
   width: 100%;
-  border-radius: 6px;
-  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  border: 1px solid rgba(6, 26, 43, 0.14);
   background: #ffffff;
   padding: 12px 14px;
-  color: #0f172a;
+  color: #061a2b;
   font: inherit;
   font-size: 0.95rem;
 }
 
 .input:focus {
-  border-color: #d51f2a;
-  box-shadow: 0 0 0 3px rgba(213, 31, 42, 0.16);
+  border-color: #ed1c24;
+  box-shadow: 0 0 0 3px rgba(237, 28, 36, 0.13);
   outline: none;
 }
 
@@ -118,12 +122,40 @@ img {
 }
 
 .swiper-pagination-bullet-active {
-  background: #d51f2a !important;
+  background: #ed1c24 !important;
+}
+
+.premium-card {
+  border: 1px solid rgba(6, 26, 43, 0.09);
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 12px 35px rgba(6, 26, 43, 0.06);
+  transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 420ms cubic-bezier(0.22, 1, 0.36, 1), border-color 420ms ease;
+}
+
+.premium-card:hover {
+  border-color: rgba(237, 28, 36, 0.34);
+  box-shadow: 0 22px 55px rgba(6, 26, 43, 0.11);
+  transform: translateY(-6px);
+}
+
+.dark-surface {
+  position: relative;
+  background: linear-gradient(135deg, #061a2b, #0a2740);
+}
+
+.dark-surface::before {
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+  background-size: 48px 48px;
+  content: "";
+  pointer-events: none;
 }
 
 @media (min-width: 768px) {
   .section {
-    padding: 96px 0;
+    padding: 112px 0;
   }
 
   .container {
