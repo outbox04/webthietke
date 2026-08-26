@@ -16,8 +16,8 @@ import {
 export const site = {
   name: "TK Architecture",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.thietkekientruc.site",
-  phone: "0384 546 623",
-  zalo: "https://zalo.me/0384546623",
+  phone: "0922.823.555",
+  zalo: "https://zalo.me/0922823555",
   description:
     "Tư vấn thiết kế kiến trúc nhà phố, nhà mái Nhật, biệt thự và nhà vườn từ 70.000đ/m²."
 };
@@ -92,7 +92,7 @@ export const pricingItems = ["Kiến trúc", "Kết cấu", "3D", "Điện nư�
 export const formNeeds = ["Nhà mái Nhật", "Nhà phố", "Biệt thự", "Nhà vườn", "Chưa xác định"];
 
 export const stickyActions = [
-  { label: "Gọi ngay", href: "tel:0384546623", icon: Phone, type: "link" },
+  { label: "Gọi ngay", href: "tel:0922823555", icon: Phone, type: "link" },
   { label: "Zalo", href: site.zalo, icon: MessageCircle, type: "link" },
   { label: "Đăng ký tư vấn", href: "#", icon: ClipboardCheck, type: "form" }
 ] as const;

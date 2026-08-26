@@ -7,7 +7,7 @@ import styles from "./catalog-flipbook.module.css";
 
 const PDF_URL = "/catalog/Done_Catalog_TDH_web.pdf";
 const PAGE_COUNT = 24;
-const PAGE_IMAGES = Array.from({ length: PAGE_COUNT }, (_, index) => `/catalog/pages/page-${String(index + 1).padStart(2, "0")}.jpg`);
+const PAGE_IMAGES = Array.from({ length: PAGE_COUNT }, (_, index) => `/catalog/pages/page-${String(index + 1).padStart(2, "0")}.jpg?v=2`);
 
 type PageFlipEvent = { data: number | string | { page: number; mode: "portrait" | "landscape" } };
 type PageFlipInstance = {
@@ -95,7 +95,7 @@ export default function CatalogFlipbook() {
     if (window.St) initialise();
     else {
       const script = document.createElement("script");
-      script.src = "/catalog/page-flip.browser.js"; script.async = true; script.onload = initialise;
+      script.src = "/catalog/page-flip.browser.js?v=2"; script.async = true; script.onload = initialise;
       script.onerror = () => setError("Không thể tải hiệu ứng lật trang. Vui lòng tải lại trang.");
       document.head.appendChild(script);
     }
@@ -128,6 +128,7 @@ export default function CatalogFlipbook() {
   }
 
   const isCover = pageIndex === 0 || pageIndex === PAGE_COUNT - 1;
+  const coverClass = pageIndex === 0 ? styles.frontCover : pageIndex === PAGE_COUNT - 1 ? styles.backCover : "";
   const label = isCover || orientation === "portrait" ? `Trang ${pageIndex + 1} / ${PAGE_COUNT}` : `Trang ${pageIndex + 1}–${Math.min(pageIndex + 2, PAGE_COUNT)} / ${PAGE_COUNT}`;
 
   return (
@@ -143,7 +144,7 @@ export default function CatalogFlipbook() {
       <section className={styles.viewer} aria-live="polite">
         {!ready && !error && <div className={styles.loading}><span />Đang mở catalog…</div>}
         {error && <div className={styles.error}>{error}</div>}
-        <div className={`${styles.flipStage} ${isCover ? styles.coverStage : ""} ${ready ? styles.stageReady : ""}`}>
+        <div className={`${styles.flipStage} ${isCover ? styles.coverStage : ""} ${coverClass} ${ready ? styles.stageReady : ""}`}>
           <div ref={bookRef} className={styles.flipBook} />
           {!isCover && orientation === "landscape" && <div className={styles.spine} aria-hidden="true" />}
         </div>

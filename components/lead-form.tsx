@@ -43,7 +43,7 @@ export function LeadForm({ source }: { source: string }) {
           <input {...register("name")} className={inputClass(Boolean(errors.name))} placeholder="Nguyễn Văn A" autoComplete="name" />
         </Field>
         <Field label="Số điện thoại" error={errors.phone?.message} submitCount={submitCount}>
-          <input {...register("phone")} className={inputClass(Boolean(errors.phone))} placeholder="0384546623" autoComplete="tel" inputMode="numeric" maxLength={10} />
+          <input {...register("phone")} className={inputClass(Boolean(errors.phone))} placeholder="0922823555" autoComplete="tel" inputMode="numeric" maxLength={10} />
         </Field>
       </div>
       <div className="grid gap-4 md:grid-cols-2">

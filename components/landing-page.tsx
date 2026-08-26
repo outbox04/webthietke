@@ -88,7 +88,7 @@ function Hero({ onOpenLead }: { onOpenLead: () => void }) {
             <CtaButton onClick={onOpenLead} className="w-full sm:w-auto">
               Nhận tư vấn miễn phí
             </CtaButton>
-            <a href={`tel:${site.phone.replace(/\s/g, "")}`} className="focus-ring inline-flex min-h-14 items-center justify-center gap-2 rounded-md bg-white/10 px-6 py-4 font-bold text-white ring-1 ring-white/30 transition hover:bg-white/20">
+            <a href={`tel:${site.phone.replace(/\D/g, "")}`} className="focus-ring inline-flex min-h-14 items-center justify-center gap-2 rounded-md bg-white/10 px-6 py-4 font-bold text-white ring-1 ring-white/30 transition hover:bg-white/20">
               <Phone size={20} aria-hidden="true" />
               {site.phone}
             </a>
