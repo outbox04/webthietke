@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./catalog-flipbook.module.css";
 
-const PDF_URL = "/catalog/Done_Catalog_TDH.pdf";
+const PDF_URL = "/catalog/Done_Catalog_TDH_web.pdf";
 
 type PdfPage = {
   getViewport: (options: { scale: number }) => { width: number; height: number };
