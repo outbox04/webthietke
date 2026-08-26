@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronLeft, ChevronRight, Download, Expand, Home, Shrink } from "lucide-react";
+import { ChevronLeft, ChevronRight, Download, Expand, Home, Shrink, Volume2, VolumeX } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./catalog-flipbook.module.css";
@@ -61,6 +61,37 @@ export default function CatalogFlipbook() {
   const [singlePage, setSinglePage] = useState(false);
   const [direction, setDirection] = useState<"next" | "prev" | null>(null);
   const [fullscreen, setFullscreen] = useState(false);
+  const [soundEnabled, setSoundEnabled] = useState(true);
+
+  const playPageSound = useCallback(() => {
+    if (!soundEnabled) return;
+    const AudioContextClass = window.AudioContext || (window as typeof window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+    if (!AudioContextClass) return;
+    const audioContext = new AudioContextClass();
+    const duration = 0.52;
+    const buffer = audioContext.createBuffer(1, audioContext.sampleRate * duration, audioContext.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < data.length; i += 1) {
+      const progress = i / data.length;
+      const envelope = Math.sin(Math.PI * progress) * (1 - progress * 0.45);
+      data[i] = (Math.random() * 2 - 1) * envelope;
+    }
+    const source = audioContext.createBufferSource();
+    const filter = audioContext.createBiquadFilter();
+    const gain = audioContext.createGain();
+    filter.type = "bandpass";
+    filter.frequency.setValueAtTime(1300, audioContext.currentTime);
+    filter.frequency.exponentialRampToValueAtTime(420, audioContext.currentTime + duration);
+    filter.Q.value = 0.7;
+    gain.gain.setValueAtTime(0.0001, audioContext.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.22, audioContext.currentTime + 0.06);
+    gain.gain.exponentialRampToValueAtTime(0.0001, audioContext.currentTime + duration);
+    source.buffer = buffer;
+    source.connect(filter).connect(gain).connect(audioContext.destination);
+    source.start();
+    source.stop(audioContext.currentTime + duration);
+    source.addEventListener("ended", () => void audioContext.close());
+  }, [soundEnabled]);
 
   useEffect(() => {
     let cancelled = false;
@@ -106,11 +137,12 @@ export default function CatalogFlipbook() {
       const step = singlePage ? 1 : 2;
       const nextPage = nextDirection === "next" ? page + step : page - step;
       if (nextPage < 1 || nextPage > pdfDocument.numPages) return;
+      playPageSound();
       setDirection(nextDirection);
       window.setTimeout(() => setPage(nextPage), 250);
       window.setTimeout(() => setDirection(null), 560);
     },
-    [direction, pdfDocument, page, singlePage]
+    [direction, pdfDocument, page, playPageSound, singlePage]
   );
 
   useEffect(() => {
@@ -166,6 +198,9 @@ export default function CatalogFlipbook() {
         <span>{pdfDocument ? (singlePage ? `Trang ${page} / ${pdfDocument.numPages}` : `Trang ${page}–${Math.min(page + 1, pdfDocument.numPages)} / ${pdfDocument.numPages}`) : "Đang tải…"}</span>
         <button type="button" onClick={() => turn("next")} disabled={!canGoNext} aria-label="Trang sau">
           <ChevronRight size={24} />
+        </button>
+        <button type="button" className={styles.soundButton} onClick={() => setSoundEnabled((current) => !current)} aria-label={soundEnabled ? "Tắt tiếng lật trang" : "Bật tiếng lật trang"} title={soundEnabled ? "Tắt âm thanh" : "Bật âm thanh"}>
+          {soundEnabled ? <Volume2 size={20} /> : <VolumeX size={20} />}
         </button>
       </footer>
       <p className={styles.hint}>Dùng phím ← → hoặc nút điều hướng để lật trang</p>
