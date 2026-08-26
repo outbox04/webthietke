@@ -70,9 +70,6 @@ function Hero({ onOpenLead }: { onOpenLead: () => void }) {
       <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/78 to-secondary/45" />
       <div className="container relative z-10 grid min-h-[92svh] items-center py-16">
         <motion.div {...fadeUp} className="max-w-3xl">
-          <div className="mb-7 flex h-28 w-28 items-center justify-center overflow-hidden rounded-2xl bg-white shadow-soft ring-1 ring-white/15">
-            <Image src="/logo/logo-slogan.png" alt="Tiến Dương - Kiến tạo chuẩn mực, xứng tầm giá trị" width={112} height={112} priority className="h-full w-full object-contain" />
-          </div>
           <div className="flex flex-wrap gap-2">
             {heroBadges.map((badge) => (
               <span key={badge} className="rounded-full bg-white/[.06] px-4 py-2 text-sm font-semibold ring-1 ring-white/15 backdrop-blur">
