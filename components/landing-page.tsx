@@ -37,7 +37,7 @@ export default function LandingPage() {
   }
 
   return (
-    <main className="overflow-hidden pb-24 md:pb-0">
+    <main className="site-dark overflow-hidden pb-24 md:pb-0">
       <Hero onOpenLead={() => openLead("Nút nhận tư vấn miễn phí ở hero")} />
       <Deliverables />
       <ProofStats />

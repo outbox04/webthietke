@@ -20,7 +20,7 @@ html {
 
 body {
   margin: 0;
-  background: var(--background);
+  background: var(--navy);
   color: var(--foreground);
   font-family: var(--font-be-vietnam), sans-serif;
 }
@@ -151,6 +151,75 @@ img {
   background-size: 48px 48px;
   content: "";
   pointer-events: none;
+}
+
+.site-dark {
+  background: #061a2b;
+  color: #ffffff;
+}
+
+.site-dark section,
+.site-dark [class~="bg-white"],
+.site-dark [class~="bg-light"] {
+  background-color: #061a2b !important;
+}
+
+.site-dark .premium-card,
+.site-dark form,
+.site-dark [class*="bg-white/"],
+.site-dark [class*="bg-light"] {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  background-color: #0a2740 !important;
+  color: #ffffff;
+}
+
+.site-dark .premium-card:hover {
+  border-color: rgba(237, 28, 36, 0.42) !important;
+  background-color: #103652 !important;
+}
+
+.site-dark .section-title,
+.site-dark .section-copy,
+.site-dark [class*="text-primary"],
+.site-dark [class*="text-body"] {
+  color: #ffffff !important;
+}
+
+.site-dark [class*="text-primary/"] {
+  color: rgba(255, 255, 255, 0.72) !important;
+}
+
+.site-dark [class*="border-primary"],
+.site-dark [class*="ring-primary"] {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  --tw-ring-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.site-dark svg:not(button svg):not(a svg) {
+  color: #ed1c24;
+}
+
+.site-dark input,
+.site-dark select,
+.site-dark textarea {
+  border-color: rgba(255, 255, 255, 0.14);
+  background: #103652;
+  color: #ffffff;
+}
+
+.site-dark input::placeholder,
+.site-dark textarea::placeholder {
+  color: rgba(255, 255, 255, 0.48);
+}
+
+.site-dark select option {
+  background: #0a2740;
+  color: #ffffff;
+}
+
+.site-dark nav {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  background: rgba(6, 26, 43, 0.96) !important;
 }
 
 @media (min-width: 768px) {
